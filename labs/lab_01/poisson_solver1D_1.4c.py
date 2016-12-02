@@ -13,8 +13,8 @@ import matplotlib.pyplot as plt
 
 
 #define constant sigma, -1/(2*pi) for giving the same values as in a)
-sigma = -1/(2*np.pi);
-C = sigma + 1/(2*np.pi)
+sigma0 = -1/(2*np.pi)
+sigma1 = 1/(2*np.pi)
 
 # Loop over different number of equally spaced subintervals
 for N in [4, 8, 16, 32, 64]:
@@ -25,10 +25,10 @@ for N in [4, 8, 16, 32, 64]:
     #print(x)
     
     # Define a (full) matrix filled with 0s.
-    A = np.zeros((N, N))
+    A = np.zeros((N+1, N+1))
     
     # Define tridiagonal part of A by for rows 1 to N-1
-    for i in range(1, N-1):
+    for i in range(1, N):
         A[i, i-1] = 1
         A[i, i] = -2
         A[i, i+1] = 1
@@ -38,19 +38,19 @@ for N in [4, 8, 16, 32, 64]:
     A[0,1] = -1
     
     # Right boundary
-    A[N-1,N-2] = 1
-    A[N-1,N-1] = -2
+    A[N,N-1] = -1
+    A[N,N] = 1
     
     #print(A)
     
     #Fill F matrix containing values from f(x) = sin(2*pi*x)
     F = np.sin(2*np.pi*x)*(-h**2)
     F = F[1:-1]
-    F = np.append([sigma*h], F)
+    F = np.append([sigma0*h], F)
+    F = np.append(F, [sigma1*h])
     
     #Solve system
     U = la.solve(A, F.T)
-    U = np.append(U, [0])
 
     #Plot solution
     plt.plot(x, U)
@@ -64,7 +64,7 @@ plt.show()
 
 
 # Plot N=64 against theoretical solution
-U_real = np.sin(2*np.pi*x)/(2*np.pi)**2 - C*x + C
+U_real = np.sin(2*np.pi*x)/(2*np.pi)**2
 plt.hold('off')
 plt.plot(x, U, 'x-r')
 plt.hold('on')

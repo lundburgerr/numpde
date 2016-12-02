@@ -11,13 +11,15 @@ import scipy.linalg as la
 # Basic plotting routines from the matplotlib library 
 import matplotlib.pyplot as plt
 
-
 #define constant sigma, -1/(2*pi) for giving the same values as in a)
 sigma = -1/(2*np.pi);
 C = sigma + 1/(2*np.pi)
 
 # Loop over different number of equally spaced subintervals
-for N in [4, 8, 16, 32, 64]:
+sub_int = [4, 8, 16, 32, 64]
+E = np.zeros((len(sub_int),1))
+iteration = 0
+for N in sub_int:
     # Mesh size
     h = 1/N #Important! In Python 2 you needed to write 1.0 to prevent integer divsion
     # Define N+1 grid points via linspace which is part of numpy now aliased as np 
@@ -51,27 +53,13 @@ for N in [4, 8, 16, 32, 64]:
     #Solve system
     U = la.solve(A, F.T)
     U = np.append(U, [0])
+    U_real = np.sin(2*np.pi*x)/(2*np.pi)**2 - C*x + C
 
-    #Plot solution
-    plt.plot(x, U)
-    plt.hold('on')
+    #Calculate error norm
+    E[iteration] = max(np.absolute(U-U_real))
+    
+    iteration += 1
+    
+EOC = np.log(E[:-1]/E[1:])/np.log(2)
+print(EOC)
 
-plt.title("The solution to -u''=f for different N")
-plt.xlabel('x')
-plt.ylabel('u(x)')
-plt.legend(["N=4", "N=8", "N=16", "N=32", "N=64"])
-plt.show()
-
-
-# Plot N=64 against theoretical solution
-U_real = np.sin(2*np.pi*x)/(2*np.pi)**2 - C*x + C
-plt.hold('off')
-plt.plot(x, U, 'x-r')
-plt.hold('on')
-plt.plot(x, U_real)
-
-plt.title("The solution to -u''=f for different N=64 and analytical solution")
-plt.xlabel('x')
-plt.ylabel('u(x)')
-plt.legend(["N=64", "an. sol."])
-plt.show()
