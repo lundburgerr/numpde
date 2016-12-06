@@ -11,9 +11,6 @@ import scipy.linalg as la
 # Basic plotting routines from the matplotlib library 
 import matplotlib.pyplot as plt
 
-#define constants
-eps = 0.1
-
 # Loop over different number of equally spaced subintervals
 sub_int = [4, 8, 16, 32, 64]
 eps_values = [0.1, 0.01, 0.001]
@@ -73,10 +70,14 @@ for eps in eps_values:
     #Plot analytical result
     plt.plot(x, U_real)
     plt.hold('off')
+    plt.title("The solution to convection diffusion for eps={}".format(eps))
+    plt.xlabel('x')
+    plt.ylabel('u(x)')
+    plt.legend(["N=4", "N=8", "N=16", "N=32", "N=64", "an. sol."], bbox_to_anchor=(1.05, 1), loc=2)
     plt.show()    
     
-    EOC = np.log(E[:-1]/E[1:])/np.log(2)
-    print(EOC)
+    #EOC = np.log(E[:-1]/E[1:])/np.log(2)
+    #print(EOC)
     
 
 
