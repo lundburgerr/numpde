@@ -12,7 +12,7 @@ import scipy.linalg as la
 import matplotlib.pyplot as plt
 
 # Loop over different number of equally spaced subintervals
-sub_int = [4, 8, 16, 32, 64]
+sub_int = [4, 8, 16, 32, 64, 128, 256, 512, 1024, 2048, 5096]
 eps_values = [0.1, 0.01, 0.001]
 for eps in eps_values:
     E = np.zeros((len(sub_int),1))
@@ -76,8 +76,8 @@ for eps in eps_values:
     plt.legend(["N=4", "N=8", "N=16", "N=32", "N=64", "an. sol."], bbox_to_anchor=(1.05, 1), loc=2)
     plt.show()    
     
-    #EOC = np.log(E[:-1]/E[1:])/np.log(2)
-    #print(EOC)
+    EOC = np.log(E[:-1]/E[1:])/np.log(2)
+    print(EOC)
     
 
 
