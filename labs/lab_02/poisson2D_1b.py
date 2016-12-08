@@ -23,7 +23,7 @@ for N in [8, 16, 32, 64]:
     
     #Compare solution to analytical solution and calculate error
     U_real = np.sin(2*np.pi*k*x)*np.sin(2*np.pi*k*y)
-    Err[iteration] = np.max(np.absolute(U_grid*np.pi-U_real))
+    Err[iteration] = np.max(np.absolute(U_grid-U_real))
     iteration += 1
     print(np.max(np.abs(U_grid)))
     print("\n\n")
